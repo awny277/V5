@@ -121,16 +121,23 @@ function setItems(products) {
 }
 
 function totalCost(products) {
-  let cartCost = localStorage.getItem("totalCost");
+  let cartCost = localStorage.getItem("totalCartCost");
 
   if (cartCost != null) {
     cartCost = parseInt(cartCost);
-    localStorage.setItem("totalCost", cartCost + products.price);
+    localStorage.setItem("totalCartCost", cartCost + products.price);
   } else {
-    localStorage.setItem("totalCost", products.price);
+    localStorage.setItem("totalCartCost", products.price);
   }
 }
 function DeleteFromCart(item) {
+  let cartCost = localStorage.getItem("totalCartCost");
+  if (cartCost != null) {
+    cartCost = parseInt(cartCost);
+    localStorage.setItem("totalCartCost", cartCost - item.price);
+  } else {
+    localStorage.setItem("totalCartCost", item.price);
+  }
   let cartItem = localStorage.getItem("productsInCarts");
   let AllProducts = JSON.parse(cartItem);
   let FilterProducts = Object.values(AllProducts).filter(
@@ -146,7 +153,7 @@ function displayCart() {
   let cartItem = localStorage.getItem("productsInCarts");
   cartItem = JSON.parse(cartItem);
   let productsContainer = document.querySelector(".products");
-  let cartCost = localStorage.getItem("totalCost");
+  let cartCost = localStorage.getItem("totalCartCost");
 
   productsContainer.innerHTML = "";
   Object.values(cartItem).map((item) => {
