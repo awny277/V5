@@ -176,20 +176,6 @@ function displayCart() {
       let total = cartCost - count * item.price;
       window.localStorage.setItem("CartTotalCost", `${total}`);
       DeleteFromCart(item);
-
-      //   if (!isNaN(cartCost)) {
-      //     localStorage.setItem("CartTotalCost", 0);
-      //   }
-
-      //   if (cartCost != null || !isNaN(cartCost)) {
-      //     cartCost = parseInt(cartCost);
-      //     localStorage.setItem(
-      //       "CartTotalCost",
-      //       parseInt(cartCost) - count * item.price
-      //     );
-      //   } else {
-      //     localStorage.setItem("CartTotalCost", 0);
-      //   }
       product.style.display = "none";
     });
     let price = document.createElement("div");
@@ -202,9 +188,16 @@ function displayCart() {
     decrease.src = "./images/arrow-left.png";
     decrease.className = "decrease";
     decrease.addEventListener("click", () => {
-      console.log(item.price);
+      //   console.log(item.price);
       let count = parseInt(QUANTITYSpan.textContent);
+      let costtotal = parseInt(basketTotal.textContent);
+      cartCost = parseInt(cartCost);
       if (count > 0) {
+        basketTotal.textContent = costtotal - item.price;
+        window.localStorage.setItem(
+          "CartTotalCost",
+          `${costtotal - item.price}`
+        );
         // let cartCost = localStorage.getItem("CartCost");
         // if (cartCost != null) {
         //   cartCost = parseInt(cartCost);
@@ -222,12 +215,17 @@ function displayCart() {
     increase.className = "increase";
     increase.addEventListener("click", () => {
       //   let cartCost = localStorage.getItem("CartCost");
-      if (cartCost != null) {
-        cartCost = parseInt(cartCost);
-        localStorage.setItem("CartTotalCost", cartCost + item.price);
-      } else {
-        localStorage.setItem("CartTotalCost", item.price);
-      }
+      let costtotal = parseInt(basketTotal.textContent);
+      cartCost = parseInt(cartCost);
+      basketTotal.textContent = costtotal + item.price;
+      window.localStorage.setItem("CartTotalCost", `${costtotal + item.price}`);
+
+      //   if (cartCost != null) {
+      //     cartCost = parseInt(cartCost);
+      //     localStorage.setItem("CartTotalCost", cartCost + item.price);
+      //   } else {
+      //     localStorage.setItem("CartTotalCost", item.price);
+      //   }
       let count = parseInt(QUANTITYSpan.textContent);
       QUANTITYSpan.textContent = count + 1;
     });
