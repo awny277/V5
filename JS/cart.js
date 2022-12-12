@@ -169,11 +169,11 @@ function displayCart() {
     Deletebutton.src = "./images/close.png";
     Deletebutton.addEventListener("click", () => {
       let count = parseInt(QUANTITYSpan.textContent);
-      //   console.log(parseInt(cartCost) - count * item.price);
+      let costtotal = parseInt(basketTotal.textContent);
       let cartCost = localStorage.getItem("CartTotalCost");
       cartCost = parseInt(cartCost);
+      basketTotal.textContent = costtotal - count * item.price;
       let total = cartCost - count * item.price;
-      //   console.log(total);
       window.localStorage.setItem("CartTotalCost", `${total}`);
       DeleteFromCart(item);
 
