@@ -66,8 +66,6 @@ let products = [
     count: 1,
   },
 ];
-// window.localStorage.removeItem("productsInCarts");
-// window.localStorage.setItem("productsInCarts", products);
 
 for (let i = 0; i < carts.length; i++) {
   carts[i].addEventListener("click", () => {
@@ -138,8 +136,6 @@ function DeleteFromCart(item) {
   let FilterProducts = Object.values(AllProducts).filter(
     (ele) => ele.course !== item.course
   );
-  //   console.log({ ...cartItem });
-  console.log(JSON.stringify({ ...FilterProducts }));
   localStorage.setItem(
     "productsInCarts",
     JSON.stringify({ ...FilterProducts })
@@ -151,8 +147,6 @@ function displayCart() {
   cartItem = JSON.parse(cartItem);
   let productsContainer = document.querySelector(".products");
   let cartCost = localStorage.getItem("totalCost");
-
-  //   console.log(cartItem);
 
   productsContainer.innerHTML = "";
   Object.values(cartItem).map((item) => {
@@ -181,11 +175,6 @@ function displayCart() {
       if (count > 0) {
         QUANTITYSpan.textContent = count - 1;
       }
-      //    else {
-      //     QUANTITYSpan.textContent = 1;
-
-      //     console.log(count--);
-      //   }
     });
     let QUANTITYSpan = document.createElement("span");
     QUANTITYSpan.textContent = `${item.count}`;
@@ -194,8 +183,6 @@ function displayCart() {
     increase.className = "increase";
     increase.addEventListener("click", () => {
       let count = parseInt(QUANTITYSpan.textContent);
-      console.log(count);
-      //   let count = item.count++;
       QUANTITYSpan.textContent = count + 1;
     });
     product.appendChild(spanCourse);
