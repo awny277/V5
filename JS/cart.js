@@ -1,4 +1,5 @@
 let carts = document.querySelectorAll(".add-cart");
+// let cartItem = localStorage.setItem("CartTotalCost", 0);
 let products = [
   { id: 1, course: "FREE DIVING/ INTRODUCTION", price: 90, inCart: 0 },
 
@@ -71,6 +72,7 @@ for (let i = 0; i < carts.length; i++) {
   carts[i].addEventListener("click", () => {
     cartNumbers(products[i]);
     totalCost(products[i]);
+    // console.log(products[i]);
   });
 }
 
@@ -121,23 +123,24 @@ function setItems(products) {
 }
 
 function totalCost(products) {
-  let cartCost = localStorage.getItem("totalCartCost");
+  let cartCost = localStorage.getItem("CartTotalCost");
 
-  if (cartCost != null) {
+  if (cartCost != null || !isNaN(cartCost)) {
     cartCost = parseInt(cartCost);
-    localStorage.setItem("totalCartCost", cartCost + products.price);
+    localStorage.setItem("CartTotalCost", cartCost + products.price);
   } else {
-    localStorage.setItem("totalCartCost", products.price);
+    localStorage.setItem("CartTotalCost", products.price);
   }
 }
+
 function DeleteFromCart(item) {
-  let cartCost = localStorage.getItem("totalCartCost");
-  if (cartCost != null) {
-    cartCost = parseInt(cartCost);
-    localStorage.setItem("totalCartCost", cartCost - item.price);
-  } else {
-    localStorage.setItem("totalCartCost", item.price);
-  }
+  //   let cartCost = localStorage.getItem("CartCost");
+  //   if (cartCost != null || !isNaN(cartCost)) {
+  //     cartCost = parseInt(cartCost);
+  //     localStorage.setItem("CartTotalCost", cartCost - item.price);
+  //   } else {
+  //     localStorage.setItem("CartTotalCost", item.price);
+  //   }
   let cartItem = localStorage.getItem("productsInCarts");
   let AllProducts = JSON.parse(cartItem);
   let FilterProducts = Object.values(AllProducts).filter(
@@ -153,7 +156,7 @@ function displayCart() {
   let cartItem = localStorage.getItem("productsInCarts");
   cartItem = JSON.parse(cartItem);
   let productsContainer = document.querySelector(".products");
-  let cartCost = localStorage.getItem("totalCartCost");
+  let cartCost = localStorage.getItem("CartTotalCost");
 
   productsContainer.innerHTML = "";
   Object.values(cartItem).map((item) => {
@@ -165,7 +168,28 @@ function displayCart() {
     Deletebutton.className = "clear-cart-button";
     Deletebutton.src = "./images/close.png";
     Deletebutton.addEventListener("click", () => {
+      let count = parseInt(QUANTITYSpan.textContent);
+      //   console.log(parseInt(cartCost) - count * item.price);
+      let cartCost = localStorage.getItem("CartTotalCost");
+      cartCost = parseInt(cartCost);
+      let total = cartCost - count * item.price;
+      //   console.log(total);
+      window.localStorage.setItem("CartTotalCost", `${total}`);
       DeleteFromCart(item);
+
+      //   if (!isNaN(cartCost)) {
+      //     localStorage.setItem("CartTotalCost", 0);
+      //   }
+
+      //   if (cartCost != null || !isNaN(cartCost)) {
+      //     cartCost = parseInt(cartCost);
+      //     localStorage.setItem(
+      //       "CartTotalCost",
+      //       parseInt(cartCost) - count * item.price
+      //     );
+      //   } else {
+      //     localStorage.setItem("CartTotalCost", 0);
+      //   }
       product.style.display = "none";
     });
     let price = document.createElement("div");
@@ -178,8 +202,16 @@ function displayCart() {
     decrease.src = "./images/arrow-left.png";
     decrease.className = "decrease";
     decrease.addEventListener("click", () => {
+      console.log(item.price);
       let count = parseInt(QUANTITYSpan.textContent);
       if (count > 0) {
+        // let cartCost = localStorage.getItem("CartCost");
+        // if (cartCost != null) {
+        //   cartCost = parseInt(cartCost);
+        //   localStorage.setItem("CartTotalCost", cartCost - item.price);
+        // } else {
+        //   localStorage.setItem("CartTotalCost", item.price);
+        // }
         QUANTITYSpan.textContent = count - 1;
       }
     });
@@ -189,6 +221,13 @@ function displayCart() {
     increase.src = "./images/arrow-right.png";
     increase.className = "increase";
     increase.addEventListener("click", () => {
+      //   let cartCost = localStorage.getItem("CartCost");
+      if (cartCost != null) {
+        cartCost = parseInt(cartCost);
+        localStorage.setItem("CartTotalCost", cartCost + item.price);
+      } else {
+        localStorage.setItem("CartTotalCost", item.price);
+      }
       let count = parseInt(QUANTITYSpan.textContent);
       QUANTITYSpan.textContent = count + 1;
     });
